@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"bard-api-server/config"
+	"board-api-server/config"
 	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"

@@ -1,11 +1,12 @@
 package main
 
 import (
-	"bard-api-server/cmd/app"
+	"board-api-server/cmd/app"
 	"context"
 	"log/slog"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 )
 
@@ -17,10 +18,12 @@ var (
 
 func main() {
 
+	wg := sync.WaitGroup{}
 	ctx, cancel := context.WithCancel(context.Background())
 
 	a := app.NewApplication(ctx)
-	a.Start()
+	go a.Start(&wg)
+
 	slog.Debug("boarder api server app start", "git_hash", GIT_HASH, "build_time", BUILD_TIME, "app_version", APP_VERSION)
 
 	<-exitSignal()
