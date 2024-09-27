@@ -1,8 +1,10 @@
 package app
 
 import (
+	"board-api-server/api/controller"
 	"board-api-server/api/route"
 	"board-api-server/config"
+	"board-api-server/internal/domain/member"
 	"board-api-server/internal/logger"
 	"board-api-server/internal/server"
 	"context"
@@ -47,8 +49,13 @@ func (a *App) Stop(ctx context.Context) {
 }
 
 func (a *App) setupRouter(ctx context.Context) {
+
+	us := member.NewUserService()
+	uc := controller.NewUserController(us)
+
 	router := route.Config{
-		Engine: a.srv.GetEngine(),
+		Engine:         a.srv.GetEngine(),
+		UserController: uc,
 	}
 	router.Setup()
 }
