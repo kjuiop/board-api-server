@@ -33,3 +33,6 @@ type Service interface {
 	updateUserInfo(request *UpdateRequest) int64
 	deleteByUsername(username string) int64
 }
+
+type Repository interface {
+}

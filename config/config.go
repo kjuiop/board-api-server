@@ -7,6 +7,7 @@ import (
 type EnvConfig struct {
 	Server Server
 	Logger Logger
+	Mysql  Mysql
 }
 
 type Server struct {
@@ -19,6 +20,14 @@ type Logger struct {
 	Level       string `envconfig:"BAC_LOG_LEVEL" default:"debug"`
 	Path        string `envconfig:"BAC_LOG_PATH" default:"./logs/access.log"`
 	PrintStdOut bool   `envconfig:"BAC_STDOUT" default:"true"`
+}
+
+type Mysql struct {
+	Host     string `envconfig:"BAC_MYSQL_HOST" default:"localhost:3306"`
+	Driver   string `envconfig:"BAC_MYSQL_DATABASE" default:"mysql"`
+	User     string `envconfig:"BAC_MYSQL_USER" default:"root"`
+	Password string `envconfig:"BAC_MYSQL_PASSWORD" default:"1234"`
+	Database string `envconfig:"BAC_MYSQL_DATABASE" default:"chatting"`
 }
 
 func LoadEnvConfig() (*EnvConfig, error) {

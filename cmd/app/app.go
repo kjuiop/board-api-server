@@ -4,6 +4,7 @@ import (
 	"board-api-server/api/controller"
 	"board-api-server/api/route"
 	"board-api-server/config"
+	"board-api-server/internal/database"
 	"board-api-server/internal/domain/member"
 	"board-api-server/internal/logger"
 	"board-api-server/internal/server"
@@ -15,6 +16,7 @@ import (
 type App struct {
 	cfg *config.EnvConfig
 	srv *server.Gin
+	db  *database.MySqlClient
 }
 
 func NewApplication(ctx context.Context) *App {
@@ -28,11 +30,17 @@ func NewApplication(ctx context.Context) *App {
 		log.Fatalf("fail to init slog err : %v", err)
 	}
 
+	db, err := database.NewMysqlClient(cfg.Mysql)
+	if err != nil {
+		log.Fatalf("fail to connect redis client")
+	}
+
 	srv := server.NewGinServer(cfg.Server)
 
 	app := &App{
 		cfg: cfg,
 		srv: srv,
+		db:  db,
 	}
 
 	app.setupRouter(ctx)
@@ -50,7 +58,8 @@ func (a *App) Stop(ctx context.Context) {
 
 func (a *App) setupRouter(ctx context.Context) {
 
-	us := member.NewUserService()
+	ur := member.NewUserMysqlRepository(a.db)
+	us := member.NewUserService(ur)
 	uc := controller.NewUserController(us)
 
 	router := route.Config{

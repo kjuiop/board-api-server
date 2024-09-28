@@ -1,10 +1,13 @@
 package member
 
 type UserService struct {
+	repo Repository
 }
 
-func NewUserService() Service {
-	return &UserService{}
+func NewUserService(repo Repository) Service {
+	return &UserService{
+		repo: repo,
+	}
 }
 
 func (u UserService) register(request *SignUpRequest) int64 {
