@@ -59,12 +59,12 @@ func (a *App) Stop(ctx context.Context) {
 func (a *App) setupRouter(ctx context.Context) {
 
 	ur := member.NewUserMysqlRepository(a.db)
-	us := member.NewUserService(ur)
-	uc := controller.NewUserController(us)
+	us := member.NewMemberService(ur)
+	uc := controller.NewMemberController(us)
 
 	router := route.Config{
-		Engine:         a.srv.GetEngine(),
-		UserController: uc,
+		Engine:           a.srv.GetEngine(),
+		MemberController: uc,
 	}
 	router.Setup()
 }

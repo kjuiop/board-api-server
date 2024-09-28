@@ -19,8 +19,18 @@ func NewMysqlClient(cfg config.Mysql) (*MySqlClient, error) {
 		return nil, fmt.Errorf("failed connect mysql, err : %w", err)
 	}
 
-	return &MySqlClient{
+	client := &MySqlClient{
 		cfg: cfg,
 		db:  db,
-	}, nil
+	}
+
+	if err := client.checkDefaultTable(); err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
+func (m *MySqlClient) checkDefaultTable() error {
+	return nil
 }

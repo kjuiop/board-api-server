@@ -19,7 +19,7 @@ type SignUpRes struct {
 type UpdateRequest struct {
 }
 
-type UserInfo struct {
+type MemberInfo struct {
 	id         int64
 	Username   string
 	password   string
@@ -31,8 +31,8 @@ type UserInfo struct {
 	updatedAt  time.Time
 }
 
-func NewUserInfo(req SignUpRequest) *UserInfo {
-	return &UserInfo{
+func NewMemberInfo(req SignUpRequest) *MemberInfo {
+	return &MemberInfo{
 		Username:  req.username,
 		password:  req.password,
 		nickname:  req.nickname,
@@ -45,14 +45,14 @@ func NewUserInfo(req SignUpRequest) *UserInfo {
 
 type Service interface {
 	SignUp(request SignUpRequest) (int64, error)
-	login(id, password string) UserInfo
+	login(id, password string) MemberInfo
 	isDuplicatedId(username string) bool
-	getUserInfo(username string) UserInfo
+	getUserInfo(username string) MemberInfo
 	updateUserInfo(request *UpdateRequest) int64
 	deleteByUsername(username string) int64
 }
 
 type Repository interface {
 	isExistByUsername(username string) (bool, error)
-	SignUp(data *UserInfo) (int64, error)
+	SignUp(data *MemberInfo) (int64, error)
 }

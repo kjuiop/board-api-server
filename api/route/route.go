@@ -6,11 +6,11 @@ import (
 )
 
 type Config struct {
-	Engine         *gin.Engine
-	UserController *controller.UserController
+	Engine           *gin.Engine
+	MemberController *controller.MemberController
 }
 
 func (c *Config) Setup() {
 	api := c.Engine.Group("/api")
-	api.POST("/sign-up", c.UserController.SignUp)
+	api.POST("/sign-up", c.MemberController.SignUp)
 }

@@ -9,17 +9,17 @@ import (
 	"net/http"
 )
 
-type UserController struct {
+type MemberController struct {
 	service member.Service
 }
 
-func NewUserController(service member.Service) *UserController {
-	return &UserController{
+func NewMemberController(service member.Service) *MemberController {
+	return &MemberController{
 		service: service,
 	}
 }
 
-func (uc *UserController) successResponse(c *gin.Context, statusCode int, data interface{}) {
+func (uc *MemberController) successResponse(c *gin.Context, statusCode int, data interface{}) {
 	c.JSON(statusCode, form.ApiResponse{
 		ErrorCode: form.NoError,
 		Message:   form.GetCustomMessage(form.NoError),
@@ -27,7 +27,7 @@ func (uc *UserController) successResponse(c *gin.Context, statusCode int, data i
 	})
 }
 
-func (uc *UserController) failResponse(c *gin.Context, statusCode int, errorCode int, err error) {
+func (uc *MemberController) failResponse(c *gin.Context, statusCode int, errorCode int, err error) {
 
 	logMessage := form.GetCustomErrMessage(errorCode, err.Error())
 	c.Errors = append(c.Errors, &gin.Error{
@@ -41,7 +41,7 @@ func (uc *UserController) failResponse(c *gin.Context, statusCode int, errorCode
 	})
 }
 
-func (uc *UserController) SignUp(c *gin.Context) {
+func (uc *MemberController) SignUp(c *gin.Context) {
 
 	req := member.SignUpRequest{}
 	if err := c.ShouldBindJSON(&req); err != nil {

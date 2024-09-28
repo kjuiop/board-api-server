@@ -5,26 +5,26 @@ import (
 	"fmt"
 )
 
-type UserService struct {
+type MemberService struct {
 	repo Repository
 }
 
-func NewUserService(repo Repository) Service {
-	return &UserService{
+func NewMemberService(repo Repository) Service {
+	return &MemberService{
 		repo: repo,
 	}
 }
 
-func (us *UserService) SignUp(req SignUpRequest) (int64, error) {
+func (us *MemberService) SignUp(req SignUpRequest) (int64, error) {
 
 	if err := us.CheckExistUsername(req.username); err != nil {
 		return 0, err
 	}
 
-	return us.repo.SignUp(NewUserInfo(req))
+	return us.repo.SignUp(NewMemberInfo(req))
 }
 
-func (us *UserService) CheckExistUsername(username string) error {
+func (us *MemberService) CheckExistUsername(username string) error {
 	isExist, err := us.repo.isExistByUsername(username)
 	if err != nil {
 		return fmt.Errorf("failed get username, err : %w", err)
@@ -36,27 +36,27 @@ func (us *UserService) CheckExistUsername(username string) error {
 	return nil
 }
 
-func (us *UserService) login(id, password string) UserInfo {
+func (us *MemberService) login(id, password string) MemberInfo {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (us *UserService) isDuplicatedId(username string) bool {
+func (us *MemberService) isDuplicatedId(username string) bool {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (us *UserService) getUserInfo(username string) UserInfo {
+func (us *MemberService) getUserInfo(username string) MemberInfo {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (us *UserService) updateUserInfo(request *UpdateRequest) int64 {
+func (us *MemberService) updateUserInfo(request *UpdateRequest) int64 {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (us *UserService) deleteByUsername(username string) int64 {
+func (us *MemberService) deleteByUsername(username string) int64 {
 	//TODO implement me
 	panic("implement me")
 }

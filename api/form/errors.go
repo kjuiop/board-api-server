@@ -31,7 +31,7 @@ func GetCustomErrMessage(code int, error string) string {
 func GetCustomErr(code int) error {
 	err, exists := codeToMessage[code]
 	if !exists {
-		return errors.New("Unknown error")
+		return errors.New("unknown error")
 	}
 
 	return err

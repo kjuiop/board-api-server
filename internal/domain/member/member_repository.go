@@ -2,20 +2,20 @@ package member
 
 import "board-api-server/internal/database"
 
-type UserRepository struct {
+type MemberRepository struct {
 	db *database.MySqlClient
 }
 
 func NewUserMysqlRepository(db *database.MySqlClient) Repository {
-	return &UserRepository{db: db}
+	return &MemberRepository{db: db}
 }
 
-func (ur *UserRepository) isExistByUsername(username string) (bool, error) {
+func (mr *MemberRepository) isExistByUsername(username string) (bool, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (ur *UserRepository) SignUp(data *UserInfo) (int64, error) {
+func (mr *MemberRepository) SignUp(data *MemberInfo) (int64, error) {
 	//TODO implement me
 	panic("implement me")
 }
