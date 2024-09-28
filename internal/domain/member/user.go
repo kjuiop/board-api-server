@@ -8,6 +8,12 @@ import (
 type SignUpRequest struct {
 	username string
 	password string
+	nickname string
+	isAdmin  bool
+}
+
+type SignUpRes struct {
+	UserId int64
 }
 
 type UpdateRequest struct {
@@ -15,7 +21,7 @@ type UpdateRequest struct {
 
 type UserInfo struct {
 	id         int64
-	username   string
+	Username   string
 	password   string
 	nickname   string
 	isAdmin    bool
@@ -25,8 +31,20 @@ type UserInfo struct {
 	updatedAt  time.Time
 }
 
+func NewUserInfo(req SignUpRequest) *UserInfo {
+	return &UserInfo{
+		Username:  req.username,
+		password:  req.password,
+		nickname:  req.nickname,
+		isAdmin:   req.isAdmin,
+		status:    types.DEFAULT,
+		createdAt: time.Now(),
+		updatedAt: time.Now(),
+	}
+}
+
 type Service interface {
-	register(request *SignUpRequest) int64
+	SignUp(request SignUpRequest) (int64, error)
 	login(id, password string) UserInfo
 	isDuplicatedId(username string) bool
 	getUserInfo(username string) UserInfo
@@ -35,4 +53,6 @@ type Service interface {
 }
 
 type Repository interface {
+	isExistByUsername(username string) (bool, error)
+	SignUp(data *UserInfo) (int64, error)
 }

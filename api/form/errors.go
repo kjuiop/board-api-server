@@ -1,13 +1,22 @@
 package form
 
-import "fmt"
-
-const (
-	NoError int = 0
+import (
+	"errors"
+	"fmt"
 )
 
-var codeToMessage = map[int]string{
-	NoError: "ok",
+const (
+	NoError                int = 0
+	ErrParsing                 = 4001
+	ErrDuplicatedUsername      = 4002
+	ErrInternalServerError     = 5004
+)
+
+var codeToMessage = map[int]error{
+	NoError:                nil,
+	ErrParsing:             errors.New("invalid request body"),
+	ErrDuplicatedUsername:  errors.New("duplicated username"),
+	ErrInternalServerError: errors.New("internal server error"),
 }
 
 func GetCustomErrMessage(code int, error string) string {
@@ -16,7 +25,16 @@ func GetCustomErrMessage(code int, error string) string {
 		return "Unknown error"
 	}
 
-	return fmt.Sprintf("%s, err : %s", message, error)
+	return fmt.Sprintf("%s, err : %v", message, error)
+}
+
+func GetCustomErr(code int) error {
+	err, exists := codeToMessage[code]
+	if !exists {
+		return errors.New("Unknown error")
+	}
+
+	return err
 }
 
 func GetCustomMessage(code int) string {
@@ -25,5 +43,5 @@ func GetCustomMessage(code int) string {
 		return "Unknown error"
 	}
 
-	return message
+	return message.Error()
 }

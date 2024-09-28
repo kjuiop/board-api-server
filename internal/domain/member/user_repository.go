@@ -9,3 +9,13 @@ type UserRepository struct {
 func NewUserMysqlRepository(db *database.MySqlClient) Repository {
 	return &UserRepository{db: db}
 }
+
+func (ur *UserRepository) isExistByUsername(username string) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (ur *UserRepository) SignUp(data *UserInfo) (int64, error) {
+	//TODO implement me
+	panic("implement me")
+}
