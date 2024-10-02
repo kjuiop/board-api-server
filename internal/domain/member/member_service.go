@@ -17,7 +17,7 @@ func NewMemberService(repo Repository) Service {
 
 func (us *MemberService) SignUp(req SignUpRequest) (int64, error) {
 
-	if err := us.CheckExistUsername(req.username); err != nil {
+	if err := us.CheckExistUsername(req.Username); err != nil {
 		return 0, err
 	}
 

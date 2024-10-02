@@ -2,8 +2,12 @@ package database
 
 import (
 	"board-api-server/config"
+	"board-api-server/internal/utils"
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"log"
+	"strings"
 )
 
 type MySqlClient struct {
@@ -32,5 +36,44 @@ func NewMysqlClient(cfg config.Mysql) (*MySqlClient, error) {
 }
 
 func (m *MySqlClient) checkDefaultTable() error {
+
+	query := checkExistChatQuery()
+
+	var count int
+	if err := m.db.QueryRow(query).Scan(&count); err != nil {
+		log.Fatal("Error checking table existence: ", err)
+	}
+
+	if count > 0 {
+		return nil
+	}
+
+	content, err := utils.ReadFileContent("/internal/database/schema/database.sql")
+	if err != nil {
+		log.Fatalf("error opening SQL file: %v", err)
+	}
+
+	queries := strings.Split(content, ";")
+
+	for _, query := range queries {
+		query = strings.TrimSpace(query)
+		if query == "" {
+			continue
+		}
+
+		_, err = m.db.Exec(query)
+		if err != nil {
+			return fmt.Errorf("error executing query : %s, err : %w", query, err)
+		}
+	}
+
 	return nil
+}
+
+func checkExistChatQuery() string {
+	return `
+    SELECT COUNT(*)
+    FROM information_schema.tables
+    WHERE table_schema = 'board' AND table_name = 'member';
+    `
 }

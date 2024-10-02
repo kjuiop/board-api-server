@@ -6,10 +6,10 @@ import (
 )
 
 type SignUpRequest struct {
-	username string
-	password string
-	nickname string
-	isAdmin  bool
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Nickname string `json:"nickname"`
+	IsAdmin  bool   `json:"is_admin"`
 }
 
 type SignUpRes struct {
@@ -33,10 +33,10 @@ type MemberInfo struct {
 
 func NewMemberInfo(req SignUpRequest) *MemberInfo {
 	return &MemberInfo{
-		Username:  req.username,
-		password:  req.password,
-		nickname:  req.nickname,
-		isAdmin:   req.isAdmin,
+		Username:  req.Username,
+		password:  req.Password,
+		nickname:  req.Nickname,
+		isAdmin:   req.IsAdmin,
 		status:    types.DEFAULT,
 		createdAt: time.Now(),
 		updatedAt: time.Now(),

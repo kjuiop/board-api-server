@@ -32,7 +32,7 @@ func NewApplication(ctx context.Context) *App {
 
 	db, err := database.NewMysqlClient(cfg.Mysql)
 	if err != nil {
-		log.Fatalf("fail to connect redis client")
+		log.Fatalf("fail to connect mysql client, err : %v", err)
 	}
 
 	srv := server.NewGinServer(cfg.Server)

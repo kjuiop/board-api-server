@@ -24,10 +24,10 @@ type Logger struct {
 
 type Mysql struct {
 	Host     string `envconfig:"BAC_MYSQL_HOST" default:"localhost:3306"`
-	Driver   string `envconfig:"BAC_MYSQL_DATABASE" default:"mysql"`
+	Driver   string `envconfig:"BAC_MYSQL_DRIVER" default:"mysql"`
 	User     string `envconfig:"BAC_MYSQL_USER" default:"root"`
 	Password string `envconfig:"BAC_MYSQL_PASSWORD" default:"1234"`
-	Database string `envconfig:"BAC_MYSQL_DATABASE" default:"chatting"`
+	Database string `envconfig:"BAC_MYSQL_DATABASE" default:"board"`
 }
 
 func LoadEnvConfig() (*EnvConfig, error) {
