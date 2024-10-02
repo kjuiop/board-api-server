@@ -17,14 +17,20 @@ func NewMemberService(repo Repository) Service {
 
 func (us *MemberService) SignUp(req SignUpRequest) (int64, error) {
 
-	if err := us.CheckExistUsername(req.Username); err != nil {
+	if err := us.isDuplicatedId(req.Username); err != nil {
 		return 0, err
 	}
 
-	return us.repo.SignUp(NewMemberInfo(req))
+	memberInfo := NewMemberInfo(req)
+	return us.repo.SignUp(memberInfo)
 }
 
-func (us *MemberService) CheckExistUsername(username string) error {
+func (us *MemberService) login(id, password string) MemberInfo {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (us *MemberService) isDuplicatedId(username string) error {
 	isExist, err := us.repo.isExistByUsername(username)
 	if err != nil {
 		return fmt.Errorf("failed get username, err : %w", err)
@@ -34,16 +40,6 @@ func (us *MemberService) CheckExistUsername(username string) error {
 	}
 
 	return nil
-}
-
-func (us *MemberService) login(id, password string) MemberInfo {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (us *MemberService) isDuplicatedId(username string) bool {
-	//TODO implement me
-	panic("implement me")
 }
 
 func (us *MemberService) getUserInfo(username string) MemberInfo {

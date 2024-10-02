@@ -70,6 +70,17 @@ func (m *MySqlClient) checkDefaultTable() error {
 	return nil
 }
 
+func (m *MySqlClient) ExecCountQuery(query string, args ...interface{}) (int, error) {
+	var count int
+
+	// 쿼리 실행 및 스캔
+	if err := m.db.QueryRow(query, args...).Scan(&count); err != nil {
+		return 0, fmt.Errorf("failed to execute count query: %w", err)
+	}
+
+	return count, nil
+}
+
 func checkExistChatQuery() string {
 	return `
     SELECT COUNT(*)

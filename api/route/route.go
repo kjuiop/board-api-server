@@ -11,10 +11,10 @@ type Config struct {
 }
 
 func (c *Config) Setup() {
-	api := c.Engine.Group("/api")
-	c.SetupMember(api)
+	c.SetupMember()
 }
 
-func (c *Config) SetupMember(api *gin.RouterGroup) {
-	api.POST("/sign-up", c.MemberController.SignUp)
+func (c *Config) SetupMember() {
+	member := c.Engine.Group("/member")
+	member.POST("/sign-up", c.MemberController.SignUp)
 }

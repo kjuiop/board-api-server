@@ -3,19 +3,19 @@ package types
 type UserStatus int
 
 const (
-	DEFAULT UserStatus = iota
-	ADMIN
-	DELETED
+	ACTIVE UserStatus = iota
+	INACTIVE
+	WITHDRAW
 )
 
 func (s UserStatus) String() string {
 	switch s {
-	case DEFAULT:
-		return "default"
-	case ADMIN:
-		return "admin"
-	case DELETED:
-		return "deleted"
+	case ACTIVE:
+		return "active"
+	case INACTIVE:
+		return "inactive"
+	case WITHDRAW:
+		return "withdraw"
 	}
 
 	return ""
