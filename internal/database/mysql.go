@@ -4,6 +4,7 @@ import (
 	"board-api-server/config"
 	"board-api-server/internal/utils"
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
@@ -79,6 +80,26 @@ func (m *MySqlClient) ExecCountQuery(query string, args ...interface{}) (int, er
 	}
 
 	return count, nil
+}
+
+func (m *MySqlClient) ExecSingleResultQuery(query string, args ...interface{}) (interface{}, error) {
+	var result interface{}
+
+	// 쿼리 실행 및 스캔
+	if err := m.db.QueryRow(query, args...).Scan(&result); err != nil {
+		return nil, fmt.Errorf("failed to execute single result query: %w", err)
+	}
+
+	if result == nil {
+		return nil, errors.New("result is empty")
+	}
+
+	return result, nil
+}
+
+func (m *MySqlClient) ExecQuery(query string, args ...interface{}) error {
+	_, err := m.db.Exec(query, args...)
+	return err
 }
 
 func checkExistChatQuery() string {

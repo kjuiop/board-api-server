@@ -13,32 +13,32 @@ type SignUpRequest struct {
 }
 
 type SignUpRes struct {
-	UserId int64
+	MemberId int64 `json:"member_id"`
 }
 
 type UpdateRequest struct {
 }
 
 type MemberInfo struct {
-	id        int64
-	Username  string
-	password  string
-	nickname  string
-	adminYn   string
-	status    types.UserStatus
-	createdAt time.Time
-	updatedAt time.Time
+	ID        int64            `json:"id"`
+	Username  string           `json:"username"`
+	Password  string           `json:"password"`
+	Nickname  string           `json:"nickname"`
+	AdminYn   string           `json:"admin_yn"`
+	Status    types.UserStatus `json:"status"`
+	CreatedAt time.Time        `json:"created_at"`
+	UpdatedAt time.Time        `json:"updated_at"`
 }
 
 func NewMemberInfo(req SignUpRequest) *MemberInfo {
 	return &MemberInfo{
 		Username:  req.Username,
-		password:  req.Password,
-		nickname:  req.Nickname,
-		adminYn:   req.AdminYn,
-		status:    types.ACTIVE,
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
+		Password:  req.Password,
+		Nickname:  req.Nickname,
+		AdminYn:   req.AdminYn,
+		Status:    types.ACTIVE,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 }
 

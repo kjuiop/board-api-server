@@ -43,5 +43,9 @@ func GetCustomMessage(code int) string {
 		return "Unknown error"
 	}
 
+	if message == nil {
+		return "ok"
+	}
+
 	return message.Error()
 }

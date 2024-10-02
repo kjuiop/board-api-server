@@ -22,6 +22,8 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	a := app.NewApplication(ctx)
+
+	wg.Add(1)
 	go a.Start(&wg)
 
 	slog.Debug("boarder api server app start", "git_hash", GIT_HASH, "build_time", BUILD_TIME, "app_version", APP_VERSION)
@@ -29,6 +31,7 @@ func main() {
 	<-exitSignal()
 	a.Stop(ctx)
 	cancel()
+	wg.Wait()
 	slog.Debug("board api server app gracefully stopped")
 }
 

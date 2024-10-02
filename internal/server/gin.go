@@ -1,6 +1,7 @@
 package server
 
 import (
+	"board-api-server/api/middleware"
 	"board-api-server/config"
 	"context"
 	"errors"
@@ -22,6 +23,7 @@ type Gin struct {
 func NewGinServer(cfg config.Server) *Gin {
 
 	router := getGinEngine(cfg.Mode)
+	router.Use(middleware.RecoveryErrorReport())
 
 	if err := router.SetTrustedProxies(strings.Split(cfg.TrustedProxies, ",")); err != nil {
 		log.Fatalf("failed set trust proxies, err : %v", err)

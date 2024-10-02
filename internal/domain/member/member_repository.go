@@ -2,6 +2,7 @@ package member
 
 import (
 	"board-api-server/internal/database"
+	"errors"
 	"strings"
 )
 
@@ -32,8 +33,34 @@ func (mr *MemberRepository) isExistByUsername(username string) (bool, error) {
 }
 
 func (mr *MemberRepository) SignUp(data *MemberInfo) (int64, error) {
-	//TODO implement me
-	panic("implement me")
+	qs := query([]string{
+		"INSERT INTO",
+		"board.member(`username`, `password`, `nickname`, `admin_yn`, `status`)",
+		"VALUES (?, ?, ?, ?, ?)",
+	})
+
+	if err := mr.db.ExecQuery(qs, data.Username, data.Password, data.Nickname, data.AdminYn, data.Status); err != nil {
+		return 0, err
+	}
+
+	mqs := query([]string{
+		"SELECT `id`",
+		"FROM board.member m",
+		"WHERE 1=1",
+		"AND m.username = ?",
+	})
+
+	result, err := mr.db.ExecSingleResultQuery(mqs, data.Username)
+	if err != nil {
+		return 0, err
+	}
+
+	id, ok := result.(int64)
+	if !ok {
+		return 0, errors.New("failed convert data type")
+	}
+
+	return id, nil
 }
 
 func query(qs []string) string {
