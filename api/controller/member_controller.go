@@ -49,7 +49,7 @@ func (uc *MemberController) SignUp(c *gin.Context) {
 		return
 	}
 
-	userId, err := uc.service.SignUp(req)
+	memberId, err := uc.service.SignUp(req)
 	if err != nil {
 		if errors.Is(err, form.GetCustomErr(form.ErrDuplicatedUsername)) {
 			uc.failResponse(c, http.StatusBadRequest, form.ErrDuplicatedUsername, fmt.Errorf("duplicated username : %w", err))
@@ -60,7 +60,7 @@ func (uc *MemberController) SignUp(c *gin.Context) {
 	}
 
 	res := member.SignUpRes{
-		UserId: userId,
+		MemberId: memberId,
 	}
 
 	uc.successResponse(c, http.StatusOK, form.ApiResponse{
